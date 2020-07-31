@@ -1,6 +1,6 @@
 <template>
-    <div>Labels组件
-        <hr>
+    <div>
+        <div>Labels组件</div>
         <Nav/>
     </div>
 </template>
