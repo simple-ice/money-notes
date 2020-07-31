@@ -1,8 +1,7 @@
 <template>
-    <div>
-        <div>Labels组件</div>
-        <Nav/>
-    </div>
+    <Layout>
+        <p>Labels组件</p>
+    </Layout>
 </template>
 
 <script lang="ts">

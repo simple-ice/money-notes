@@ -1,8 +1,7 @@
 <template>
-    <div>Statistics组件
-        <hr>
-        <Nav/>
-    </div>
+    <Layout>
+        <p>Statistics组件</p>
+    </Layout>
 </template>
 
 <script lang="ts">

@@ -1,9 +1,7 @@
 <template>
-    <div class="nav-wrap">
-        <div class="content">Money组件
-        </div>
-        <Nav />
-    </div>
+    <Layout>
+        <p>Money组件</p>
+    </Layout>
 </template>
 
 <script lang="ts">
@@ -13,15 +11,5 @@
 </script>
 
 <style lang="scss" scoped>
-    .nav-wrap{
-        border: 1px solid cornflowerblue;
-        display: flex;
-        flex-direction: column;
-        height: 100vh;
-    }
-    .content{
-        border: 1px solid green;
-        flex-grow: 1;
-        overflow: auto;
-    }
+
 </style>
