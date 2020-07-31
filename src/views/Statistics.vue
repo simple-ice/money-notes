@@ -1,5 +1,8 @@
 <template>
-    <div>Statistics组件</div>
+    <div>Statistics组件
+        <hr>
+        <Nav/>
+    </div>
 </template>
 
 <script lang="ts">

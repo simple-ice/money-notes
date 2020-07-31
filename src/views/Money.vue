@@ -1,5 +1,8 @@
 <template>
-    <div>Money组件</div>
+    <div>Money组件
+        <hr>
+        <Nav />
+    </div>
 </template>
 
 <script lang="ts">

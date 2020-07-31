@@ -1,5 +1,8 @@
 <template>
-    <div>Labels组件</div>
+    <div>Labels组件
+        <hr>
+        <Nav/>
+    </div>
 </template>
 
 <script lang="ts">
