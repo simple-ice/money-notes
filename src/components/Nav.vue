@@ -1,10 +1,10 @@
 <template>
     <nav>
         <router-link to="/money" class="item" active-class="selected">
-            <Icon name="money" />记账
+            <Icon name="edit" />记账
         </router-link>
         <router-link to="/labels" class="item" active-class="selected">
-            <Icon name="labels"/>标签
+            <Icon name="label"/>标签
         </router-link>
         <router-link to="/statistics" class="item" active-class="selected">
             <Icon name="statistics"/>统计
@@ -38,9 +38,7 @@
             }
         }
         > .item.selected{
-            color: red;
-            background: rgba(255,255,255,.1);
-
+            color: cornflowerblue;
         }
     }
 </style>
