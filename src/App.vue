@@ -14,5 +14,6 @@
         -moz-osx-font-smoothing: grayscale;
         line-height: 1.5;
         color: #333;
+        font-size: 16px;
     }
 </style>
