@@ -16,7 +16,7 @@
   }
   a{
     text-decoration: none;
-    color: cornflowerblue;
+    color: inherit;
   }
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;

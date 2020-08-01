@@ -1,5 +1,5 @@
 <template>
-    <svg class="icon">
+    <svg fill="currentColor" class="icon">
         <use :xlink:href="'#'+name"></use>
     </svg>
 </template>
@@ -17,7 +17,7 @@
     .icon {
         width: 1em; height: 1em;
         vertical-align: -0.15em;
-        fill: currentColor;
+        fill: currentColor !important;
         overflow: hidden;
     }
 </style>
