@@ -22,11 +22,12 @@
 
 <script lang="ts">
     import Vue from 'vue';
-    import {Component} from 'vue-property-decorator';
+    import {Component, Prop} from 'vue-property-decorator';
 
     @Component
     export default class Calculator extends Vue {
-        outPut = '0';
+        @Prop(Number) readonly value!: number;
+        outPut = this.value.toString();
 
         inputContent(e: MouseEvent) {
             const button = e.target as HTMLButtonElement;
@@ -59,7 +60,7 @@
         }
 
         save() {
-            return;
+            this.$emit('update:value', parseFloat(this.outPut));
         }
     }
 </script>
