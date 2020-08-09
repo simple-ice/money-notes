@@ -61,6 +61,8 @@
 
         save() {
             this.$emit('update:value', parseFloat(this.outPut));
+            this.$emit('submit', parseFloat(this.outPut));
+            this.outPut = '0';
         }
     }
 </script>
