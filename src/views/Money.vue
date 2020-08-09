@@ -1,6 +1,6 @@
 <template>
     <Layout class-prefix="money">
-        <Tags />
+        <Tags :data-tags.sync="dataTags"/>
         <Remark/>
         <Types/>
         <Calculator/>
@@ -14,7 +14,12 @@
     import Calculator from '@/views/Money/Calculator.vue';
     export default {
         name: 'Money',
-        components: {Calculator, Types, Remark, Tags}
+        components: {Calculator, Types, Remark, Tags},
+        data(){
+            return {
+                dataTags: ['衣','食','住','行']
+            }
+        }
     };
 </script>
 
