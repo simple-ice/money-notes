@@ -1,6 +1,5 @@
 <template>
     <Layout class-prefix="money">
-        {{record}}
         <Tags :data-tags.sync="tags" @update:selected="onUpdateTags"/>
         <Remark @update:value="onUpdateRemark"/>
         <Types :value.sync="record.type"/>
@@ -17,11 +16,13 @@
     import Types from '@/views/Money/Types.vue';
     import Calculator from '@/views/Money/Calculator.vue';
 
+    const recordList: Record[] = JSON.parse(window.localStorage.getItem('recordList') || '[]');
     type Record = {
         tags: string[];
         remark: string;
         type: string;
         amount: number;
+        createAt?: Date;
     }
 
     @Component({
@@ -29,7 +30,7 @@
     })
     export default class Money extends Vue {
         tags = ['衣', '食', '住', '行'];
-        recordList: Record[] = [];
+        recordList: Record[] = recordList;
         record: Record = {
             tags: [],
             remark: '',
@@ -44,13 +45,16 @@
         onUpdateRemark(value: string) {
             this.record.remark = value;
         }
-        saveRecord(){
-            this.recordList.push(JSON.parse(JSON.stringify(this.record)))
+
+        saveRecord() {
+            const deepClone: Record = JSON.parse(JSON.stringify(this.record));
+            deepClone.createAt = new Date();
+            this.recordList.push(deepClone);
         }
 
         @Watch('recordList')
-        onRecordListChange(){
-            window.localStorage.setItem('recordList', JSON.stringify(this.recordList))
+        onRecordListChange() {
+            window.localStorage.setItem('recordList', JSON.stringify(this.recordList));
         }
     }
 </script>
