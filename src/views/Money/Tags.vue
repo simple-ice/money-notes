@@ -28,15 +28,23 @@
             } else {
                 this.selectedTags.push(tag);
             }
+            this.$emit('update:selected', this.selectedTags);
         }
 
         createTag() {
-            const tagName = window.prompt('请输入标签名');
-            if (tagName !== '' && this.dataTags) {
-                return this.$emit('update:dataTags', [...this.dataTags, tagName]);
+            const name = window.prompt('请输入标签名');
+            console.log(name);
+            if (name !== null) {
+                const tagName = name.trim();
+                if (tagName === '') {
+                    window.alert('标签名不能为空');
+                    return;
+                } else {
+                    if (this.dataTags) {
+                        this.$emit('update:dataTags', [...this.dataTags, tagName]);
+                    }
+                }
             }
-
-            window.alert('标签名不能为空');
         }
     }
 </script>
