@@ -15,23 +15,19 @@
     import Remark from '@/views/Money/Remark.vue';
     import Types from '@/views/Money/Types.vue';
     import Calculator from '@/views/Money/Calculator.vue';
+    import model from '@/model';
 
-    const recordList: Record[] = JSON.parse(window.localStorage.getItem('recordList') || '[]');
-    type Record = {
-        tags: string[];
-        remark: string;
-        type: string;
-        amount: number;
-        createAt?: Date;
-    }
+
+    const recordList = model.getData();
+
 
     @Component({
         components: {Calculator, Types, Remark, Tags}
     })
     export default class Money extends Vue {
         tags = ['衣', '食', '住', '行'];
-        recordList: Record[] = recordList;
-        record: Record = {
+        recordList: RecordItem[] = recordList;
+        record: RecordItem = {
             tags: [],
             remark: '',
             type: '-',
@@ -47,14 +43,14 @@
         }
 
         saveRecord() {
-            const deepClone: Record = JSON.parse(JSON.stringify(this.record));
+            const deepClone = model.clone(this.record);
             deepClone.createAt = new Date();
             this.recordList.push(deepClone);
         }
 
         @Watch('recordList')
         onRecordListChange() {
-            window.localStorage.setItem('recordList', JSON.stringify(this.recordList));
+            model.setData(this.recordList);
         }
     }
 </script>

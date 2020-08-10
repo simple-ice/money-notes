@@ -33,16 +33,13 @@
 
         createTag() {
             const name = window.prompt('请输入标签名');
-            console.log(name);
             if (name !== null) {
                 const tagName = name.trim();
                 if (tagName === '') {
                     window.alert('标签名不能为空');
                     return;
-                } else {
-                    if (this.dataTags) {
-                        this.$emit('update:dataTags', [...this.dataTags, tagName]);
-                    }
+                } else if (this.dataTags) {
+                    this.$emit('update:dataTags', [...this.dataTags, tagName]);
                 }
             }
         }
