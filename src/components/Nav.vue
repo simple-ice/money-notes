@@ -26,7 +26,7 @@
         display: flex;
         flex-direction: row;
         font-size: 12px;
-
+        background: white;
         .item{
             width: 33.3333%;
             display: flex;
@@ -39,7 +39,7 @@
             }
         }
         > .item.selected{
-            color: cornflowerblue;
+            color: $color-highlight;
         }
     }
 </style>
