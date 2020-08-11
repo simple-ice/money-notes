@@ -1,7 +1,7 @@
 <template>
     <Layout class-prefix="money">
         <Tags :data-tags.sync="tags" @update:selected="onUpdateTags"/>
-        <Remark @update:value="onUpdateRemark"/>
+        <Remark field-name="备注" placeholder="点击这里输入备注" @update:value="onUpdateRemark"/>
         <Types :value.sync="record.type"/>
         <Calculator :value.sync="record.amount" @submit="saveRecord"/>
     </Layout>
