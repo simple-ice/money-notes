@@ -11,10 +11,10 @@
     import Vue from 'vue';
     import {Component, Watch} from 'vue-property-decorator';
 
-    import Tags from '@/views/Money/Tags.vue';
-    import Remark from '@/views/Money/Remark.vue';
-    import Types from '@/views/Money/Types.vue';
-    import Calculator from '@/views/Money/Calculator.vue';
+    import Tags from '@/components/Money/Tags.vue';
+    import Remark from '@/components/Money/Remark.vue';
+    import Types from '@/components/Money/Types.vue';
+    import Calculator from '@/components/Money/Calculator.vue';
     import recordListModel from '@/models/recordListModel';
     import tagListModel from '@/models/tagListModel';
 
