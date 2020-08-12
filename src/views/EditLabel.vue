@@ -50,13 +50,19 @@
         }
 
         deleteTag() {
-            if (!window.confirm('确定删除该标签吗？')) {return;}
+            if (!window.confirm('确定删除该标签吗？')) {
+                return;
+            }
             if (this.tag && tagListModel.deleteData(this.tag.id)) {
                 window.alert('标签删除成功！');
+                this.goBack();
+            } else {
+                window.alert('标签删除失败！');
             }
         }
-        goBack(){
-            this.$router.back()
+
+        goBack() {
+            this.$router.back();
         }
     }
 </script>

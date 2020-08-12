@@ -1,3 +1,5 @@
+import createId from '@/lib/createId';
+
 const localStorageKeyName = 'tagList';
 
 type Tag = {
@@ -11,7 +13,7 @@ type TagListModel = {
     createData: (data: string) => 'success' | 'duplicated';// 联合类型
     updateData: (id: string, name: string) => 'success' | 'not found' | 'duplicated';
     saveData: () => void;
-    deleteData: (id: string) => void;
+    deleteData: (id: string) => boolean;
 }
 const tagListModel: TagListModel = {
     data: [],
@@ -24,10 +26,8 @@ const tagListModel: TagListModel = {
         if (names.indexOf(name) >= 0) {
             return 'duplicated';
         }
-        this.data.push({
-            id: name,
-            name: name
-        });
+        const id = createId().toString();
+        this.data.push({id, name});
         this.saveData();
         return 'success';
     },
@@ -48,14 +48,15 @@ const tagListModel: TagListModel = {
             return 'not found';
         }
     },
-    deleteData(id){
+    deleteData(id) {
         for (let i = 0; i < this.data.length; i++) {
-            if (this.data[i].id === id){
+            if (this.data[i].id === id) {
                 this.data.splice(i, 1);
                 this.saveData();
                 return true;
             }
         }
+        return false;
     },
     saveData() {
         window.localStorage.setItem(localStorageKeyName, JSON.stringify(this.data));
