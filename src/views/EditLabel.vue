@@ -2,14 +2,17 @@
     <Layout>
         <div class="wrap">
             <div class="navBar">
-                <Icon class="leftIcon" name="left"/>
+                <Icon class="leftIcon" name="left" @click.native="goBack"/>
                 <span class="title">编辑标签</span>
             </div>
             <div class="inputWrap">
-                <InputItem :value="tag.name" field-name="标签名" placeholder="请输入标签名"/>
+                <InputItem :value="tag.name"
+                           @update:value="updateTag"
+                           field-name="标签名"
+                           placeholder="请输入标签名"/>
             </div>
             <div class="delete">
-                <Button>删除标签</Button>
+                <Button @click.native="deleteTag">删除标签</Button>
             </div>
         </div>
     </Layout>
@@ -38,6 +41,22 @@
             } else {
                 this.$router.replace('/404');
             }
+        }
+
+        updateTag(name: string) {
+            if (this.tag) {
+                tagListModel.updateData(this.tag.id, name);
+            }
+        }
+
+        deleteTag() {
+            if (!window.confirm('确定删除该标签吗？')) {return;}
+            if (this.tag && tagListModel.deleteData(this.tag.id)) {
+                window.alert('标签删除成功！');
+            }
+        }
+        goBack(){
+            this.$router.back()
         }
     }
 </script>
