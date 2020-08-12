@@ -1,5 +1,5 @@
 <template>
-    <label class="remark">
+    <label class="inputItem">
         <span class="name">{{this.fieldName}}</span>
         <input v-model="value" type="text" :placeholder="this.placeholder"/>
     </label>
@@ -10,7 +10,7 @@
     import {Component, Prop, Watch} from 'vue-property-decorator';
 
     @Component
-    export default class Remark extends Vue {
+    export default class InputItem extends Vue {
         value = '';
         @Prop({required: true}) fieldName!: string;
         @Prop(String) placeholder?: string;
@@ -23,10 +23,9 @@
 </script>
 
 <style lang="scss" scoped>
-    .remark {
+    .inputItem {
         width: 100%;
         font-size: 14px;
-        background: #f5f5f5;
         padding-left: 16px;
         display: flex;
         align-items: center;
@@ -36,7 +35,7 @@
         }
 
         > input {
-            height: 73px;
+            height: 100%;
             flex-grow: 1;
             padding-right: 16px;
             background: transparent;

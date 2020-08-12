@@ -1,7 +1,9 @@
 <template>
     <Layout class-prefix="money">
         <Tags :data-tags.sync="tags" @update:selected="onUpdateTags"/>
-        <Remark field-name="备注" placeholder="点击这里输入备注" @update:value="onUpdateRemark"/>
+        <div class="remake">
+            <InputItem field-name="备注" placeholder="点击这里输入备注" @update:value="onUpdateRemark"/>
+        </div>
         <Types :value.sync="record.type"/>
         <Calculator :value.sync="record.amount" @submit="saveRecord"/>
     </Layout>
@@ -12,7 +14,7 @@
     import {Component, Watch} from 'vue-property-decorator';
 
     import Tags from '@/components/Money/Tags.vue';
-    import Remark from '@/components/Money/Remark.vue';
+    import InputItem from '@/components/Money/InputItem.vue';
     import Types from '@/components/Money/Types.vue';
     import Calculator from '@/components/Money/Calculator.vue';
     import recordListModel from '@/models/recordListModel';
@@ -23,7 +25,7 @@
     const tagList = tagListModel.getData();
 
     @Component({
-        components: {Calculator, Types, Remark, Tags}
+        components: {Calculator, Types, InputItem, Tags}
     })
     export default class Money extends Vue {
         tags = tagList;
@@ -61,5 +63,10 @@
         display: flex;
         align-content: flex-end;
         flex-wrap: wrap;
+    }
+    .remake{
+        background: #f5f5f5;
+        height: 73px;
+        line-height: 73px;
     }
 </style>

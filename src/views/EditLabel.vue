@@ -1,10 +1,17 @@
 <template>
     <Layout>
-        <div>
-            <Icon name="left" />
-            <span>编辑标签</span>
+        <div class="wrap">
+            <div class="navBar">
+                <Icon class="leftIcon" name="left"/>
+                <span class="title">编辑标签</span>
+            </div>
+            <div class="inputWrap">
+                <InputItem field-name="标签名" placeholder="请输入标签名"/>
+            </div>
+            <div class="delete">
+                <Button>删除标签</Button>
+            </div>
         </div>
-        <Remark field-name="标签名" placeholder="请输入标签名" />
     </Layout>
 </template>
 
@@ -12,9 +19,11 @@
     import Vue from 'vue';
     import {Component} from 'vue-property-decorator';
     import tagListModel from '@/models/tagListModel';
-    import Remark from '@/components/Money/Remark.vue';
+    import InputItem from '@/components/Money/InputItem.vue';
+    import Button from '@/components/Button.vue';
+
     @Component({
-        components: {Remark}
+        components: {Button, InputItem}
     })
     export default class EditLabel extends Vue {
         created() {
@@ -27,11 +36,50 @@
             } else {
                 this.$router.replace('/404');
             }
-
         }
     }
 </script>
 
 <style lang="scss" scoped>
+    .wrap {
+        width: 100%;
+        height: 100%;
+        position: relative;
+
+        .navBar {
+            min-height: 48px;
+            font-size: 16px;
+            text-align: center;
+            line-height: 48px;
+            position: relative;
+            background: white;
+
+            > .leftIcon {
+                font-size: 24px;
+                position: absolute;
+                left: 16px;
+                top: 50%;
+                transform: translateY(-50%);
+            }
+
+            > .title {
+
+            }
+        }
+
+        .inputWrap {
+            margin-top: 8px;
+            background: white;
+            max-height: 44px;
+            line-height: 44px;
+        }
+
+        .delete {
+            position: absolute;
+            bottom: 33px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+    }
 
 </style>

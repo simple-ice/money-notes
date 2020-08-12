@@ -52,7 +52,7 @@
         font-size: 14px;
         padding: 16px;
         overflow: auto;
-
+        background: white;
         .current {
             display: flex;
             flex-wrap: wrap;
