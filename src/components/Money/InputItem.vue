@@ -1,7 +1,9 @@
 <template>
     <label class="inputItem">
         <span class="name">{{this.fieldName}}</span>
-        <input v-model="value" type="text" :placeholder="this.placeholder"/>
+        <input :value="value"
+               @input="onValueChange($event.target.value)"
+               type="text" :placeholder="this.placeholder"/>
     </label>
 </template>
 
@@ -11,7 +13,7 @@
 
     @Component
     export default class InputItem extends Vue {
-        value = '';
+        @Prop({default: ''}) readonly value!: string;
         @Prop({required: true}) fieldName!: string;
         @Prop(String) placeholder?: string;
 
