@@ -46,14 +46,13 @@
         }
 
         saveRecord() {
-            const result = recordListModel.clone(this.record);
-            result.createAt = new Date();
-            this.recordList.push(result);
+            console.log(this.record);
+            recordListModel.createData(this.record);
         }
 
         @Watch('recordList')
         onRecordListChange() {
-            recordListModel.setData(this.recordList);
+            recordListModel.setData();
         }
     }
 </script>
@@ -64,7 +63,8 @@
         align-content: flex-end;
         flex-wrap: wrap;
     }
-    .remake{
+
+    .remake {
         background: #f5f5f5;
         height: 73px;
         line-height: 73px;
