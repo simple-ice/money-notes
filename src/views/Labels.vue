@@ -67,15 +67,5 @@
     .createTag {
         text-align: center;
         margin-top: 44px;
-
-        > button {
-            background: $color-highlight;
-            color: white;
-            border: none;
-            border-radius: 4px;
-            font-size: 16px;
-            height: 40px;
-            padding: 0 16px;
-        }
     }
 </style>
