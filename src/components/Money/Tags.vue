@@ -1,7 +1,7 @@
 <template>
     <div class="tags">
         <ul class="current">
-            <li v-for="tag in dataTags" :key="tag.id"
+            <li v-for="tag in tagList" :key="tag.id"
                 @click="toggle(tag)"
                 :class=" {selected: selectedTags.indexOf(tag) >= 0} ">{{tag.name}}
             </li>
@@ -14,15 +14,15 @@
 
 <script lang="ts">
     import Vue from 'vue';
-    import {Component, Prop} from 'vue-property-decorator';
+    import {Component} from 'vue-property-decorator';
     import store from '@/store/index2';
 
     @Component
     export default class Tags extends Vue {
-        selectedTags: string[] = [];
-        @Prop(Array) dataTags: string[] | undefined;
+        selectedTags: Tag[] = [];
+        tagList = store.fetchTags();
 
-        toggle(tag: string) {
+        toggle(tag: Tag) {
             const index = this.selectedTags.indexOf(tag);
             if (index >= 0) {
                 this.selectedTags.splice(index, 1);
