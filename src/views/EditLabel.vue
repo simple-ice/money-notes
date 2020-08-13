@@ -23,12 +23,13 @@
     import {Component} from 'vue-property-decorator';
     import InputItem from '@/components/Money/InputItem.vue';
     import Button from '@/components/Button.vue';
+    import store from '@/store/index2';
 
     @Component({
         components: {Button, InputItem}
     })
     export default class EditLabel extends Vue {
-        tag = window.findTag(this.$route.params.id);
+        tag = store.findTag(this.$route.params.id);
 
         created() {
             if (!this.tag){
@@ -38,7 +39,7 @@
 
         updateTag(name: string) {
             if (this.tag) {
-                window.updateTag(this.tag.id, name);
+                store.updateTag(this.tag.id, name);
             }
         }
 
@@ -46,7 +47,7 @@
             if (!window.confirm('确定删除该标签吗？')) {
                 return;
             }
-            if (this.tag && window.deleteTag(this.tag.id)) {
+            if (this.tag && store.deleteTag(this.tag.id)) {
                 window.alert('标签删除成功！');
                 this.goBack();
             } else {

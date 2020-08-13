@@ -1,6 +1,6 @@
 <template>
     <Layout class-prefix="money">
-        <Tags :data-tags.sync="tags" @update:selected="onUpdateTags"/>
+        <Tags :data-tags.sync="tags" @update:selected="onUpdateTags" />
         <div class="remake">
             <InputItem field-name="备注" placeholder="点击这里输入备注" @update:value="onUpdateRemark"/>
         </div>
@@ -17,21 +17,21 @@
     import InputItem from '@/components/Money/InputItem.vue';
     import Types from '@/components/Money/Types.vue';
     import Calculator from '@/components/Money/Calculator.vue';
+    import store from '@/store/index2';
 
 
     @Component({
         components: {Calculator, Types, InputItem, Tags}
     })
     export default class Money extends Vue {
-        tags = window.tagList;
-        recordList = window.recordList;
+        tags = store.tagList;
+        recordList = store.recordList;
         record: RecordItem = {
             tags: [],
             remark: '',
             type: '-',
             amount: 0
         };
-
         onUpdateTags(value: string[]) {
             this.record.tags = value;
         }
@@ -41,7 +41,7 @@
         }
 
         saveRecord() {
-            window.createRecord(this.record);
+            store.createRecord(this.record);
         }
     }
 </script>

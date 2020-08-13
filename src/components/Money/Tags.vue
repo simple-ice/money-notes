@@ -15,7 +15,7 @@
 <script lang="ts">
     import Vue from 'vue';
     import {Component, Prop} from 'vue-property-decorator';
-
+    import store from '@/store/index2';
     @Component
     export default class Tags extends Vue {
         selectedTags: string[] = [];
@@ -37,9 +37,8 @@
                 const tagName = name.trim();
                 if (tagName === '') {
                     window.alert('标签名不能为空');
-                    return;
                 } else if (this.dataTags) {
-                    this.$emit('update:dataTags', [...this.dataTags, tagName]);
+                    store.createTag(tagName);
                 }
             }
         }
