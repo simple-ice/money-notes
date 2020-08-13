@@ -18,17 +18,14 @@
     import Types from '@/components/Money/Types.vue';
     import Calculator from '@/components/Money/Calculator.vue';
     import recordListModel from '@/models/recordListModel';
-    import tagListModel from '@/models/tagListModel';
-
 
     const recordList = recordListModel.getData();
-    const tagList = tagListModel.getData();
 
     @Component({
         components: {Calculator, Types, InputItem, Tags}
     })
     export default class Money extends Vue {
-        tags = tagList;
+        tags = window.tagList;
         recordList: RecordItem[] = recordList;
         record: RecordItem = {
             tags: [],
