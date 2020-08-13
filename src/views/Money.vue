@@ -1,6 +1,6 @@
 <template>
     <Layout class-prefix="money">
-        <Tags  @update:selected="onUpdateTags" />
+        <Tags @update:selected="onUpdateTags"/>
         <div class="remake">
             <InputItem field-name="备注" placeholder="点击这里输入备注" @update:value="onUpdateRemark"/>
         </div>
@@ -21,7 +21,12 @@
 
 
     @Component({
-        components: {Calculator, Types, InputItem, Tags}
+        components: {Calculator, Types, InputItem, Tags},
+        computed: {
+            recordList() {
+                return store.recordList;
+            }
+        }
     })
     export default class Money extends Vue {
         recordList = store.recordList;
@@ -31,6 +36,7 @@
             type: '-',
             amount: 0
         };
+
         onUpdateTags(value: string[]) {
             this.record.tags = value;
         }
