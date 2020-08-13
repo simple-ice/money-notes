@@ -8,12 +8,13 @@ const recordListModel = {
         const result = clone(record);
         result.createAt = new Date();
         this.data.push(result);
+        this.saveData();
     },
-    getData() {
+    fetchData() {
         this.data = JSON.parse(window.localStorage.getItem(localStorageKeyName) || '[]') as RecordItem[];
         return this.data;
     },
-    setData() {
+    saveData() {
         window.localStorage.setItem(localStorageKeyName, JSON.stringify(this.data));
     }
 };

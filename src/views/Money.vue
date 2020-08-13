@@ -11,22 +11,20 @@
 
 <script lang="ts">
     import Vue from 'vue';
-    import {Component, Watch} from 'vue-property-decorator';
+    import {Component} from 'vue-property-decorator';
 
     import Tags from '@/components/Money/Tags.vue';
     import InputItem from '@/components/Money/InputItem.vue';
     import Types from '@/components/Money/Types.vue';
     import Calculator from '@/components/Money/Calculator.vue';
-    import recordListModel from '@/models/recordListModel';
 
-    const recordList = recordListModel.getData();
 
     @Component({
         components: {Calculator, Types, InputItem, Tags}
     })
     export default class Money extends Vue {
         tags = window.tagList;
-        recordList: RecordItem[] = recordList;
+        recordList = window.recordList;
         record: RecordItem = {
             tags: [],
             remark: '',
@@ -43,13 +41,7 @@
         }
 
         saveRecord() {
-            console.log(this.record);
-            recordListModel.createData(this.record);
-        }
-
-        @Watch('recordList')
-        onRecordListChange() {
-            recordListModel.setData();
+            window.createRecord(this.record);
         }
     }
 </script>
