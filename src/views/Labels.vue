@@ -25,15 +25,7 @@
 
         createTag() {
             const name = window.prompt('请输入标签名')
-            if (name !== null) {
-                const tagName = name.trim();
-                if (tagName === '') {
-                    window.alert('标签名不能为空');
-                    return;
-                } else {
-                    store.createTag(name)
-                }
-            }
+            if (name !== null) {store.createTag(name);}
         }
     }
 </script>
