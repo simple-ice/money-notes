@@ -14,7 +14,6 @@
 <script lang="ts">
     import Vue from 'vue';
     import {Component} from 'vue-property-decorator';
-    import tagListModel from '@/models/tagListModel';
     import Button from '@/components/Button.vue';
 
     @Component({
@@ -31,12 +30,7 @@
                     window.alert('标签名不能为空');
                     return;
                 } else {
-                    const msg = tagListModel.createData(name);
-                    if (msg === 'duplicated'){
-                        window.alert('标签不能重复')
-                    }else{
-                        window.alert('标签创建成功!')
-                    }
+                    window.createTag(name)
                 }
             }
         }
