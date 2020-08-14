@@ -34,7 +34,9 @@
             type: '-',
             amount: 0
         };
-
+        created(){
+            this.$store.commit('fetchRecords');
+        }
         onUpdateTags(value: string[]) {
             this.record.tags = value;
         }
