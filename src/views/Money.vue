@@ -20,12 +20,7 @@
 
 
     @Component({
-        components: {Calculator, Types, InputItem, Tags},
-        computed: {
-            recordList() {
-                return this.$store.state.recordList;
-            }
-        }
+        components: {Calculator, Types, InputItem, Tags}
     })
     export default class Money extends Vue {
         record: RecordItem = {
@@ -34,9 +29,13 @@
             type: '-',
             amount: 0
         };
-        created(){
+        get recordList() {
+            return this.$store.state.recordList;
+        }
+        created() {
             this.$store.commit('fetchRecords');
         }
+
         onUpdateTags(value: string[]) {
             this.record.tags = value;
         }
