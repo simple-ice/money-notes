@@ -3,15 +3,6 @@
         <router-view/>
     </div>
 </template>
-<script lang="ts">
-    import Vue from 'vue'
-    import {Component} from 'vue-property-decorator';
-    import store from '@/store/index2';
-    @Component
-    export default class App extends Vue{
-        store = store
-    }
-</script>
 
 <style lang="scss">
     @import "~@/assets/styles/helps.scss";
