@@ -8,8 +8,8 @@ const recordStore = {
         return this.recordList;
     },
     createRecord(record: RecordItem) {
-        const result = clone(record);
-        result.createAt = new Date();
+        const result: RecordItem = clone(record);
+        result.createAt = new Date().toISOString();
         this.recordList.push(result);
         this.saveRecord();
     },

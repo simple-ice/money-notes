@@ -5,11 +5,7 @@ import createId from '@/lib/createId';
 
 Vue.use(Vuex);
 
-type RootState = {
-    recordList: RecordItem[];
-    tagList: Tag[];
-    currentTag?: Tag;
-}
+
 const store = new Vuex.Store({
     state: {
         recordList: [],
@@ -20,9 +16,9 @@ const store = new Vuex.Store({
         fetchRecords(state) {
             state.recordList = JSON.parse(window.localStorage.getItem('recordList') || '[]') as RecordItem[];
         },
-        createRecord(state, record) {
-            const result = clone(record);
-            result.createAt = new Date();
+        createRecord(state, record: RecordItem) {
+            const result: RecordItem = clone(record);
+            result.createAt = new Date().toISOString();
             state.recordList.push(result);
             store.commit('saveRecord');
         },
@@ -32,7 +28,7 @@ const store = new Vuex.Store({
         fetchTags(state) {
             state.tagList = JSON.parse(window.localStorage.getItem('tagList') || '[]');
         },
-        setCurrentTag(state, id) {
+        setCurrentTag(state, id: string) {
             state.currentTag = state.tagList.filter(t => t.id === id)[0];
         },
         createTag(state, name: string) {

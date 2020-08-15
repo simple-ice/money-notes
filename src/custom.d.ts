@@ -3,7 +3,7 @@ type RecordItem = {
     remark: string;
     type: string;
     amount: number;
-    createAt?: Date;
+    createAt?: string;
 }
 
 type Tag = {
@@ -20,5 +20,10 @@ type TagListModel = {
     deleteData: (id: string) => boolean;
 }
 
+type RootState = {
+    recordList: RecordItem[];
+    tagList: Tag[];
+    currentTag?: Tag;
+}
 // interface Window {
 // }
