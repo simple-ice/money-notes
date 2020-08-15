@@ -4,7 +4,7 @@
         <div class="remake">
             <InputItem field-name="备注" placeholder="点击这里输入备注" @update:value="onUpdateRemark"/>
         </div>
-        <Types :value.sync="record.type"/>
+        <Tabs :data-tabs="moneyTypeList" :selected-value.sync="record.type"/>
         <Calculator :value.sync="record.amount" @submit="saveRecord"/>
     </Layout>
 </template>
@@ -17,10 +17,12 @@
     import InputItem from '@/components/Money/InputItem.vue';
     import Types from '@/components/Money/Types.vue';
     import Calculator from '@/components/Money/Calculator.vue';
+    import Tabs from '@/components/Tabs.vue';
+    import moneyTypeList from '@/constants/moneyTypeList';
 
 
     @Component({
-        components: {Calculator, Types, InputItem, Tags}
+        components: {Tabs, Calculator, Types, InputItem, Tags}
     })
     export default class Money extends Vue {
         record: RecordItem = {
@@ -29,9 +31,12 @@
             type: '-',
             amount: 0
         };
+        moneyTypeList = moneyTypeList;
+
         get recordList() {
             return this.$store.state.recordList;
         }
+
         created() {
             this.$store.commit('fetchRecords');
         }

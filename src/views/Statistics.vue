@@ -11,14 +11,16 @@
     import {Component} from 'vue-property-decorator';
     import Types from '@/components/Money/Types.vue';
     import Tabs from '@/components/Tabs.vue';
+    import periodList from '@/constants/periodList';
+    import moneyTypeList from '@/constants/moneyTypeList';
     @Component({
         components: {Tabs, Types}
     })
     export default class Statistics extends Vue{
         moneyType = '-';
         period = 'day'
-        periodList = [{text: '按天', value: 'day'},{text: '按周', value: 'week'},{text: '按月', value: 'month'}]
-        moneyTypeList = [{text: '支出', value:'-'}, {text: '收入', value: '+'}]
+        periodList = periodList;
+        moneyTypeList = moneyTypeList;
     }
 </script>
 
