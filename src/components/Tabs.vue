@@ -1,9 +1,10 @@
 <template>
-    <ul class="types">
-        <li :class="{selected: value === '-', [classPrefix+ '-tabs-item']: classPrefix}"
-            @click="selectType('-')">支出</li>
-        <li :class="{selected: value === '+', [classPrefix+ '-tabs-item']: classPrefix}"
-            @click="selectType('+')">收入</li>
+    <ul class="tabs">
+        <li v-for="tab in dataTabs" :key="tab.value"
+            :class="{selected: tab.value === selectedValue, [classPrefix+ '-tabs-item']: classPrefix}"
+            @click="select(tab)"
+        >{{tab.text}}
+        </li>
     </ul>
 </template>
 
@@ -11,24 +12,25 @@
     import Vue from 'vue';
     import {Component, Prop} from 'vue-property-decorator';
 
+    type DataTabItem = {
+        text: string; value: string;
+    }
     @Component
-    export default class Types extends Vue {
-
-        @Prop(String) readonly value!: string;
+    export default class Tabs extends Vue {
+        @Prop({required: true, type: Array}) dataTabs!: DataTabItem[];
+        @Prop(String) readonly selectedValue!: string;
         @Prop(String) readonly classPrefix?: string;
 
-        selectType(type: string) {
-            if (type !== '-' && type !== '+') {
-                throw new Error('type is unknown');
-            }
-            this.$emit('update:value', type);
+        select(tab: DataTabItem) {
+            this.$emit('update:selectedValue', tab.value)
         }
     }
 </script>
 
 <style lang="scss" scoped>
     @import "~@/assets/styles/helps.scss";
-    .types {
+
+    .tabs {
         width: 100%;
         font-size: 24px;
         display: flex;
@@ -43,8 +45,9 @@
             justify-content: center;
             position: relative;
 
-            &.selected{
+            &.selected {
                 color: $color-highlight;
+
                 &::after {
                     content: '';
                     position: absolute;
