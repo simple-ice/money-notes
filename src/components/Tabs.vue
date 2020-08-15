@@ -1,7 +1,9 @@
 <template>
     <ul class="tabs">
         <li v-for="tab in dataTabs" :key="tab.value"
-            :class="{selected: tab.value === selectedValue, [classPrefix+ '-tabs-item']: classPrefix}"
+            class="tabs-item"
+            :class="{selected: tab.value === selectedValue,
+            [classPrefix+ '-tabs-item']: classPrefix}"
             @click="select(tab)"
         >{{tab.text}}
         </li>
@@ -36,7 +38,7 @@
         display: flex;
         text-align: center;
 
-        > li {
+        &-item {
             background: #C4C4C4;
             width: 50%;
             height: 73px;
