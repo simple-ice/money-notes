@@ -15,14 +15,13 @@
 
     import Tags from '@/components/Money/Tags.vue';
     import InputItem from '@/components/Money/InputItem.vue';
-    import Types from '@/components/Money/Types.vue';
     import Calculator from '@/components/Money/Calculator.vue';
     import Tabs from '@/components/Tabs.vue';
     import moneyTypeList from '@/constants/moneyTypeList';
 
 
     @Component({
-        components: {Tabs, Calculator, Types, InputItem, Tags}
+        components: {Tabs, Calculator, InputItem, Tags}
     })
     export default class Money extends Vue {
         record: RecordItem = {
