@@ -1,19 +1,39 @@
 <template>
-    <Layout>
+    <Layout class="wrap">
         <Tabs class-prefix="stats" :data-tabs="moneyTypeList" :selectedValue.sync="moneyType"/>
         <Tabs class-prefix="period" :data-tabs="periodList" :selectedValue.sync="period"/>
-        <div>
-            <ol>
-                <li v-for="(group,index) in result" :key="index">
-                    <h3>{{group.title}}</h3>
-                    <ol>
-                        <li v-for="item in group.items" :key="item.id">
-                            {{item.amount}} {{item.createAt}}
-                        </li>
-                    </ol>
-                </li>
-            </ol>
-        </div>
+        <ol>
+            <li v-for="(group,index) in result" :key="index">
+                <h3 class="title">{{group.title}}</h3>
+                <ol class="groupList">
+                    <li v-for="item in group.items" :key="item.id">
+                        <span>{{tagString(item.tags)}}</span>
+                        <span class="remark">{{item.remark}}</span>
+                        <span>￥{{item.amount}}</span>
+                    </li>
+                </ol>
+            </li>
+            <li v-for="(group,index) in result" :key="index">
+                <h3 class="title">{{group.title}}</h3>
+                <ol class="groupList">
+                    <li v-for="item in group.items" :key="item.id">
+                        <span>{{tagString(item.tags)}}</span>
+                        <span class="remark">{{item.remark}}</span>
+                        <span>￥{{item.amount}}</span>
+                    </li>
+                </ol>
+            </li>
+            <li v-for="(group,index) in result" :key="index">
+                <h3 class="title">{{group.title}}</h3>
+                <ol class="groupList">
+                    <li v-for="item in group.items" :key="item.id">
+                        <span>{{tagString(item.tags)}}</span>
+                        <span class="remark">{{item.remark}}</span>
+                        <span>￥{{item.amount}}</span>
+                    </li>
+                </ol>
+            </li>
+        </ol>
     </Layout>
 </template>
 
@@ -28,17 +48,20 @@
         components: {Tabs}
     })
     export default class Statistics extends Vue {
+        moneyType = '-';
+        period = 'day';
+        periodList = periodList;
+        moneyTypeList = moneyTypeList;
         get recordList() {
             return (this.$store.state as RootState).recordList;
         }
-
         get result() {
             const {recordList} = this;
             type HashTableValue = {
                 title: string;
-                items: RecordList[];
+                items: RecordItem[];
             }
-            const hashTable: {[key: string]: HashTableValue} = {};
+            const hashTable: { [key: string]: HashTableValue } = {};
             for (const element of recordList) {
                 if (element.createAt) {
                     const [date, time] = element.createAt.split('T');
@@ -46,18 +69,16 @@
                     hashTable[date].items.push(element);
                 }
             }
-            console.log(hashTable);
             return hashTable;
         }
-
         beforeCreate() {
             this.$store.commit('fetchRecords');
         }
 
-        moneyType = '-';
-        period = 'day';
-        periodList = periodList;
-        moneyTypeList = moneyTypeList;
+        tagString(tags: Tag[]){
+            return tags.length === 0 ? '无' : tags.join(',')
+        }
+
     }
 </script>
 
@@ -75,9 +96,30 @@
                 }
             }
         }
-
         .period-tabs-item {
             height: 48px;
+        }
+    }
+
+    %item{
+        padding: 0 16px;
+        min-height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .title{
+        @extend %item;
+    }
+    .groupList{
+        background: white;
+        > li {
+            @extend %item;
+            .remark{
+                margin-left: 14px;
+                margin-right: auto;
+                color: #999;
+            }
         }
     }
 </style>
