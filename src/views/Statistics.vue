@@ -1,7 +1,7 @@
 <template>
     <Layout class="wrap">
         <Tabs class-prefix="stats" :data-tabs="moneyTypeList" :selectedValue.sync="moneyType"/>
-        <ol>
+        <ol v-if="dataList.length>0">
             <li class="dataList" v-for="(group,index) in dataList" :key="index">
                 <h3 class="title">{{timeTitle(group.title)}}<span style="font-weight: bold">￥{{group.total}}</span></h3>
                 <ol class="groupList">
@@ -16,6 +16,9 @@
                 </ol>
             </li>
         </ol>
+        <div v-else class="noData">
+            您还没有记录，赶快去记一笔吧~
+        </div>
     </Layout>
 </template>
 
@@ -41,10 +44,16 @@
 
         get dataList() {
             const {recordList} = this;
-            if (recordList.length === 0) {return [] as Result;}
+            if (recordList.length === 0) {
+                return [] as Result;
+            }
             const newList = clone(recordList)
                 .filter(r => r.type === this.moneyType)
                 .sort((x, y) => dayjs(y.createAt).valueOf() - dayjs(x.createAt).valueOf());
+
+            if (newList.length === 0) {
+                return [];
+            }
             type Result = {
                 title: string;
                 total?: number;
@@ -61,8 +70,8 @@
                 }
             }
             result.map(group => {
-                group.total = group.items.reduce((sum, item) => sum + item.amount, 0)
-            })
+                group.total = group.items.reduce((sum, item) => sum + item.amount, 0);
+            });
             return result;
         }
 
@@ -71,7 +80,7 @@
         }
 
         tagString(tags: Tag[]) {
-            return tags.length === 0 ? '无' : tags.join(',');
+            return tags.length === 0 ? '无' : tags.map(t => t.name).join('，');
         }
 
         timeTitle(title: string) {
@@ -96,12 +105,18 @@
 
 <style lang="scss" scoped>
     @import "~@/assets/styles/helps.scss";
+    .noData{
+        font-size: 20px;
+        padding: 30px;
+        text-align: center;
+    }
 
     ::v-deep {
         .stats-tabs-item {
             &.selected {
                 background: $color-highlight;
                 color: white;
+
                 &::after {
                     content: none;
                 }
@@ -121,7 +136,7 @@
         justify-content: space-between;
     }
 
-    .dataList{
+    .dataList {
         .title {
             @extend %item;
         }
