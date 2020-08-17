@@ -101,10 +101,12 @@
         }
 
         .delete {
-            position: absolute;
-            bottom: 33px;
-            left: 50%;
-            transform: translateX(-50%);
+            margin-top: 60px;
+            display: flex;
+            justify-content: center;
+            > button{
+
+            }
         }
     }
 
