@@ -1,10 +1,9 @@
 <template>
     <Layout class="wrap">
         <Tabs class-prefix="stats" :data-tabs="moneyTypeList" :selectedValue.sync="moneyType"/>
-        <Tabs class-prefix="period" :data-tabs="periodList" :selectedValue.sync="period"/>
         <ol>
-            <li v-for="group in result" :key="group.title">
-                <h3 class="title">{{timeTitle(group.title)}}</h3>
+            <li class="dataList" v-for="(group,index) in dataList" :key="index">
+                <h3 class="title">{{timeTitle(group.title)}}<span style="font-weight: bold">￥{{group.total}}</span></h3>
                 <ol class="groupList">
                     <li v-for="item in group.items" :key="item.id">
                         <div class="textWrap">
@@ -24,17 +23,15 @@
     import Vue from 'vue';
     import {Component} from 'vue-property-decorator';
     import Tabs from '@/components/Tabs.vue';
-    import periodList from '@/constants/periodList';
     import moneyTypeList from '@/constants/moneyTypeList';
     import dayjs from 'dayjs';
+    import clone from '@/lib/clone';
 
     @Component({
         components: {Tabs}
     })
     export default class Statistics extends Vue {
         moneyType = '-';
-        period = 'day';
-        periodList = periodList;
         moneyTypeList = moneyTypeList;
         dayjs = dayjs;
 
@@ -42,21 +39,31 @@
             return (this.$store.state as RootState).recordList;
         }
 
-        get result() {
+        get dataList() {
             const {recordList} = this;
-            type HashTableValue = {
+            if (recordList.length === 0) {return [] as Result;}
+            const newList = clone(recordList)
+                .filter(r => r.type === this.moneyType)
+                .sort((x, y) => dayjs(y.createAt).valueOf() - dayjs(x.createAt).valueOf());
+            type Result = {
                 title: string;
+                total?: number;
                 items: RecordItem[];
-            }
-            const hashTable: { [key: string]: HashTableValue } = {};
-            for (const element of recordList) {
-                if (element.createAt) {
-                    const [date, time] = element.createAt.split('T');
-                    hashTable[date] = hashTable[date] || {title: date, items: []};
-                    hashTable[date].items.push(element);
+            }[];
+            const result: Result = [{title: dayjs(newList[0].createAt).format('YYYY-MM-DD'), items: [newList[0]]}];
+            for (let i = 1; i < newList.length; i++) {
+                const current = newList[i];
+                const last = result[result.length - 1];
+                if (dayjs(last.title).isSame(dayjs(current.createAt), 'day')) {
+                    last.items.push(current);
+                } else {
+                    result.push({title: dayjs(current.createAt).format('YYYY-MM-DD'), items: [current]});
                 }
             }
-            return hashTable;
+            result.map(group => {
+                group.total = group.items.reduce((sum, item) => sum + item.amount, 0)
+            })
+            return result;
         }
 
         beforeCreate() {
@@ -95,7 +102,6 @@
             &.selected {
                 background: $color-highlight;
                 color: white;
-
                 &::after {
                     content: none;
                 }
@@ -115,39 +121,42 @@
         justify-content: space-between;
     }
 
-    .title {
-        @extend %item;
-    }
-
-    .groupList {
-        background: white;
-
-        > li {
+    .dataList{
+        .title {
             @extend %item;
+        }
 
-            position: relative;
+        .groupList {
+            background: white;
 
-            .textWrap {
-                display: flex;
-                flex-direction: column;
-                padding: 6px 0;
-                width: 40vw;
+            > li {
+                @extend %item;
 
-                .remark {
-                    color: #999;
-                    white-space: nowrap;
-                    overflow: hidden;
-                    text-overflow: ellipsis;
+                position: relative;
+
+                .textWrap {
+                    display: flex;
+                    flex-direction: column;
+                    padding: 6px 0;
+                    width: 40vw;
+
+                    .remark {
+                        color: #999;
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                    }
                 }
-            }
 
-            .createTime {
-                color: #777;
-                position: absolute;
-                top: 50%;
-                left: 50%;
-                transform: translate(-50%, -50%);
+                .createTime {
+                    color: #777;
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                }
             }
         }
     }
+
 </style>
