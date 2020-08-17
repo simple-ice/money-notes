@@ -2,7 +2,9 @@
     <Layout class-prefix="money">
         <Tags @update:selected="onUpdateTags"/>
         <div class="remake">
-            <InputItem field-name="备注" placeholder="点击这里输入备注" @update:value="onUpdateRemark"/>
+            <InputItem field-name="备注"
+                       placeholder="点击这里输入备注"
+                       :value.sync="record.remark"/>
         </div>
         <Tabs :data-tabs="moneyTypeList" :selected-value.sync="record.type"/>
         <Calculator :value.sync="record.amount" @submit="saveRecord"/>
@@ -49,7 +51,12 @@
         }
 
         saveRecord() {
+            if (!this.record || this.record.tags.length === 0){
+                return window.alert('请至少选择一个标签');
+            }
             this.$store.commit('createRecord', this.record);
+            window.alert('已保存');
+            this.record.remark = ''
         }
     }
 </script>
