@@ -10,7 +10,8 @@ const store = new Vuex.Store({
     state: {
         recordList: [],
         tagList: [],
-        currentTag: undefined
+        currentTag: undefined,
+        createTagErr: null
     } as RootState,
     mutations: {
         fetchRecords(state) {
@@ -27,26 +28,26 @@ const store = new Vuex.Store({
         },
         fetchTags(state) {
             state.tagList = JSON.parse(window.localStorage.getItem('tagList') || '[]');
+            if (!state.tagList || state.tagList.length === 0) {
+                store.commit('createTag', '衣');
+                store.commit('createTag', '食');
+                store.commit('createTag', '住');
+                store.commit('createTag', '行');
+            }
         },
         setCurrentTag(state, id: string) {
             state.currentTag = state.tagList.filter(t => t.id === id)[0];
         },
         createTag(state, name: string) {
-            const tagName = name.trim();
-            if (tagName === '') {
-                window.alert('标签名不能为空');
+            state.createTagErr = null;
+            const names = state.tagList.map(item => item.name);
+            if (names.indexOf(name) >= 0) {
+                state.createTagErr = new Error('duplicate');
                 return;
-            } else {
-                const names = state.tagList.map(item => item.name);
-                if (names.indexOf(name) >= 0) {
-                    window.alert('标签不能重复');
-                    return;
-                }
-                const id = createId().toString();
-                state.tagList.push({id, name});
-                store.commit('saveTags');
-                window.alert('标签创建成功!');
             }
+            const id = createId().toString();
+            state.tagList.push({id, name});
+            store.commit('saveTags');
         },
         updateTag(state, payload: { id: string; name: string }) {
             const {id, name} = payload;
@@ -66,13 +67,13 @@ const store = new Vuex.Store({
         deleteTag(state, id: string) {
             for (let i = 0; i < state.tagList.length; i++) {
                 if (state.tagList[i].id === id) {
+                    console.log('找到了id');
                     state.tagList.splice(i, 1);
                     store.commit('saveTags');
                     return;
-                } else {
-                    window.alert('删除标签失败');
                 }
             }
+            window.alert('标签删除失败');
         },
         saveTags(state) {
             window.localStorage.setItem('tagList', JSON.stringify(state.tagList));
