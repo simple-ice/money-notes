@@ -46,11 +46,14 @@
         padding: 16px;
         overflow: auto;
         background: white;
-
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+        flex-grow: 1;
         .current {
             display: flex;
             flex-wrap: wrap;
-
+            overflow: auto;
             > li {
                 $bg: #D9D9D9;
                 background: $bg;

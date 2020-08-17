@@ -1,7 +1,7 @@
 <template>
     <Layout class-prefix="money">
         <Tags @update:selected="onUpdateTags"/>
-        <div class="remake">
+        <div class="remark">
             <InputItem field-name="备注"
                        placeholder="点击这里输入备注"
                        :value.sync="record.remark"/>
@@ -64,13 +64,14 @@
 <style lang="scss">
     .money-content {
         display: flex;
-        align-content: flex-end;
-        flex-wrap: wrap;
+        flex-direction: column;
+        justify-content: flex-end;
     }
 
-    .remake {
+    .remark {
         background: #f5f5f5;
         height: 73px;
         line-height: 73px;
+        width: 100%;
     }
 </style>
