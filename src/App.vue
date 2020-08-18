@@ -17,4 +17,17 @@
         font-size: 16px;
         background: #f5f5f5;
     }
+
+    @media (min-width: 768px){
+        #app{
+            max-width: 768px;
+            margin: 0 auto;
+        }
+    }
+    @media (max-width: 768px) {
+        #app{
+            max-width: 500px;
+            margin: 0 auto;
+        }
+    }
 </style>
