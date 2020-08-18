@@ -1,11 +1,9 @@
 <template>
     <Layout class-prefix="money">
         <Tags @update:selected="onUpdateTags"/>
-        <div class="remark">
-            <InputItem field-name="备注"
-                       placeholder="点击这里输入备注"
-                       :value.sync="record.remark"/>
-        </div>
+        <InputItem field-name="备注"
+                   placeholder="点击这里输入备注"
+                   :value.sync="record.remark"/>
         <Tabs :data-tabs="moneyTypeList" :selected-value.sync="record.type"/>
         <Calculator :value.sync="record.amount" @submit="saveRecord"/>
     </Layout>
@@ -51,27 +49,30 @@
         }
 
         saveRecord() {
-            if (!this.record || this.record.tags.length === 0){
+            if (!this.record || this.record.tags.length === 0) {
                 return window.alert('请至少选择一个标签');
             }
             this.$store.commit('createRecord', this.record);
             window.alert('已保存');
-            this.record.remark = ''
+            this.record.remark = '';
         }
     }
 </script>
 
-<style lang="scss">
-    .money-content {
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-end;
+<style lang="scss" scoped>
+    ::v-deep {
+        .money-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+        }
+
+        .inputItem {
+            background: #f5f5f5;
+            height: 73px;
+            line-height: 73px;
+            width: 100%;
+        }
     }
 
-    .remark {
-        background: #f5f5f5;
-        height: 73px;
-        line-height: 73px;
-        width: 100%;
-    }
 </style>
