@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import clone from '@/lib/clone';
 import createId from '@/lib/createId';
-
+import dayjs from 'dayjs';
 Vue.use(Vuex);
 
 
@@ -20,11 +20,21 @@ const store = new Vuex.Store({
         createRecord(state, record: RecordItem) {
             const result: RecordItem = clone(record);
             result.createAt = new Date().toISOString();
+            result._id = dayjs().valueOf().toString();
             state.recordList.push(result);
             store.commit('saveRecord');
         },
         saveRecord(state) {
             window.localStorage.setItem('recordList', JSON.stringify(state.recordList));
+        },
+        deleteRecord(state, id: string){
+            for (let i = 0; i < state.recordList.length; i++) {
+                if (state.recordList[i]._id === id) {
+                    state.recordList.splice(i, 1);
+                    store.commit('saveRecord');
+                    return;
+                }
+            }
         },
         fetchTags(state) {
             state.tagList = JSON.parse(window.localStorage.getItem('tagList') || '[]');
@@ -67,7 +77,6 @@ const store = new Vuex.Store({
         deleteTag(state, id: string) {
             for (let i = 0; i < state.tagList.length; i++) {
                 if (state.tagList[i].id === id) {
-                    console.log('找到了id');
                     state.tagList.splice(i, 1);
                     store.commit('saveTags');
                     return;
