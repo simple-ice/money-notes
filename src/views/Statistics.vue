@@ -5,12 +5,11 @@
             <li class="dataList" v-for="(group,index) in dataList" :key="index">
                 <h3 class="title">{{timeTitle(group.title)}}<span style="font-weight: bold">￥{{group.total}}</span></h3>
                 <ol class="groupList">
-                    <li v-for="item in group.items" :key="item.id">
+                    <li @click="showDetails(item)" v-for="item in group.items" :key="item.id">
                         <div class="textWrap">
                             <span class="tag">{{tagString(item.tags)}}</span>
                             <span class="remark">{{item.remark}}</span>
                         </div>
-                        <span class="createTime">{{dayjs(item.createAt).format('H:mm')}}</span>
                         <span>￥{{item.amount}}</span>
                     </li>
                 </ol>
@@ -19,6 +18,7 @@
         <div v-else class="noData">
             您还没有记录，赶快去记一笔吧~
         </div>
+        <Details v-if="isShowDetails" :record="selectRecord" :isShowDetails.sync="isShowDetails"/>
     </Layout>
 </template>
 
@@ -29,14 +29,17 @@
     import moneyTypeList from '@/constants/moneyTypeList';
     import dayjs from 'dayjs';
     import clone from '@/lib/clone';
+    import Details from '@/components/Statistics/Details.vue';
 
     @Component({
-        components: {Tabs}
+        components: {Details, Tabs}
     })
     export default class Statistics extends Vue {
         moneyType = '-';
         moneyTypeList = moneyTypeList;
         dayjs = dayjs;
+        isShowDetails = false;
+        selectRecord!: RecordItem ;
 
         get recordList() {
             return (this.$store.state as RootState).recordList;
@@ -99,7 +102,10 @@
             }
         }
 
-
+        showDetails(item: RecordItem){
+            this.isShowDetails = !this.isShowDetails;
+            this.selectRecord = item;
+        }
     }
 </script>
 
@@ -161,14 +167,6 @@
                         overflow: hidden;
                         text-overflow: ellipsis;
                     }
-                }
-
-                .createTime {
-                    color: #777;
-                    position: absolute;
-                    top: 50%;
-                    left: 50%;
-                    transform: translate(-50%, -50%);
                 }
             }
         }
