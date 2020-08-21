@@ -4,15 +4,13 @@
             <div class="bill-details">
                 <span>账单详情</span>
                 <div class="btn">
-                    <button>修改</button>
+<!--                    <button>修改</button>-->
                     <button @click="deleteRecord">删除</button>
                 </div>
             </div>
             <div class="bill-amount">
                 <span>金额</span>
-                <span :style="{
-                    color: record.type === '-'? 'red' : 'green'
-                }">{{record.type+record.amount}}</span>
+                <span :class="record.type === '-' ? 'fontColorPay' : 'fontColorIncome'">{{record.type+record.amount}}</span>
             </div>
             <div class="bill-tags">
                 <span>分类</span>
@@ -47,6 +45,13 @@
 </script>
 
 <style lang="scss" scoped>
+    @import "~@/assets/styles/helps.scss";
+    .fontColorPay{
+        color: $color-pay;
+    }
+    .fontColorIncome{
+        color: $color-income;
+    }
         .details {
             position: fixed;
             bottom: 0;
@@ -75,7 +80,7 @@
                     background: none;
                     &:last-child{
                         margin-left: 25px;
-                        color: red;
+                        color: orangered;
                     }
                 }
             }
