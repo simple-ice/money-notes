@@ -18,8 +18,10 @@
         <div v-else class="noData">
             您还没有记录，赶快去记一笔吧~
         </div>
-        <div class="mask" v-if="isShowDetails" @click="isShowDetails=!isShowDetails"></div>
-        <Details v-if="isShowDetails" :record="selectRecord" :isShowDetails.sync="isShowDetails"/>
+        <transition-group name="fade">
+            <div key="mask-fade" class="mask" v-if="isShowDetails" @click="isShowDetails=!isShowDetails"></div>
+            <Details key="details-fade" v-if="isShowDetails" :record="selectRecord" :isShowDetails.sync="isShowDetails"/>
+        </transition-group>
     </Layout>
 </template>
 
@@ -113,7 +115,12 @@
 
 <style lang="scss" scoped>
     @import "~@/assets/styles/helps.scss";
-
+    .fade-enter-active, .fade-leave-active {
+        transition: opacity .5s;
+    }
+    .fade-enter, .fade-leave-to{
+        opacity: 0;
+    }
     .mask{
         position: fixed;
         top: 0;

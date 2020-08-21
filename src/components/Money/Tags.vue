@@ -40,6 +40,7 @@
 </script>
 
 <style lang="scss" scoped>
+    @import "~@/assets/styles/helps.scss";
     .tags {
         width: 100%;
         font-size: 14px;
@@ -66,7 +67,7 @@
                 margin-top: 10px;
 
                 &.selected {
-                    background: darken($bg, 50%);
+                    background: $color-highlight;
                     color: white;
                 }
             }

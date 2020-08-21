@@ -14,7 +14,7 @@
             </div>
             <div class="bill-tags">
                 <span>分类</span>
-                <span v-for="(item) in record.tags" :key="item.id">{{item.name}}</span>
+                <span>{{record.tags.map(tag => tag.name).join(',')}}</span>
             </div>
             <div class="bill-time">
                 <span>时间</span>
