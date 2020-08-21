@@ -18,10 +18,8 @@
         <div v-else class="noData">
             您还没有记录，赶快去记一笔吧~
         </div>
-        <transition-group name="fade">
-            <div key="mask-fade" class="mask" v-if="isShowDetails" @click="isShowDetails=!isShowDetails"></div>
-            <Details key="details-fade" v-if="isShowDetails" :record="selectRecord" :isShowDetails.sync="isShowDetails"/>
-        </transition-group>
+        <div class="mask" v-if="isShowDetails" @click="isShowDetails=!isShowDetails"></div>
+        <Details v-if="isShowDetails" :record="selectRecord" :isShowDetails.sync="isShowDetails"/>
     </Layout>
 </template>
 
@@ -42,7 +40,7 @@
         moneyTypeList = moneyTypeList;
         dayjs = dayjs;
         isShowDetails = false;
-        selectRecord!: RecordItem ;
+        selectRecord!: RecordItem;
 
         get recordList() {
             return (this.$store.state as RootState).recordList;
@@ -105,7 +103,7 @@
             }
         }
 
-        showDetails(item: RecordItem){
+        showDetails(item: RecordItem) {
             this.isShowDetails = !this.isShowDetails;
             this.selectRecord = item;
         }
@@ -115,13 +113,7 @@
 
 <style lang="scss" scoped>
     @import "~@/assets/styles/helps.scss";
-    .fade-enter-active, .fade-leave-active {
-        transition: opacity .5s;
-    }
-    .fade-enter, .fade-leave-to{
-        opacity: 0;
-    }
-    .mask{
+    .mask {
         position: fixed;
         top: 0;
         left: 0;
@@ -129,7 +121,7 @@
         height: 100vh;
         background: rgba(0, 0, 0, .5);
     }
-    .noData{
+    .noData {
         font-size: 20px;
         padding: 30px;
         text-align: center;

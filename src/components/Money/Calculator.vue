@@ -52,11 +52,10 @@
         remove() {
             if (this.outPut.length > 1) {
                 this.outPut = this.outPut.slice(0, -1);
-                this.$emit('update:value', parseFloat(this.outPut));
             } else {
                 this.outPut = '0';
-                this.$emit('update:value', parseFloat(this.outPut));
             }
+            this.$emit('update:value', parseFloat(this.outPut));
         }
 
         clear() {
@@ -66,7 +65,8 @@
 
         save() {
             this.$emit('update:value', parseFloat(this.outPut));
-            this.$emit('submit');
+            this.$emit('submit',parseFloat(this.outPut));
+            this.outPut = '0';
         }
     }
 </script>
