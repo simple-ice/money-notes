@@ -18,7 +18,8 @@
         <div v-else class="noData">
             您还没有记录，赶快去记一笔吧~
         </div>
-        <Details v-if="isShowDetails" :record="selectRecord" :isShowDetails.sync="isShowDetails"/>
+        <div class="mask" v-if="isShowDetails" @click="isShowDetails=!isShowDetails"></div>
+        <Details v-if="isShowDetails" :record="selectRecord"/>
     </Layout>
 </template>
 
@@ -106,11 +107,21 @@
             this.isShowDetails = !this.isShowDetails;
             this.selectRecord = item;
         }
+
     }
 </script>
 
 <style lang="scss" scoped>
     @import "~@/assets/styles/helps.scss";
+
+    .mask{
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0, 0, 0, .5);
+    }
     .noData{
         font-size: 20px;
         padding: 30px;

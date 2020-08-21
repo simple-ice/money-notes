@@ -1,5 +1,5 @@
 <template>
-    <div class="wrap-details" @click="isShow">
+    <div>
         <div class="details">
             <div class="bill-details">
                 <span>账单详情</span>
@@ -37,26 +37,13 @@
     @Component
     export default class Details extends Vue {
         @Prop({required: true, type: Object}) record!: RecordItem;
-        @Prop(Boolean) isShowDetails!: boolean;
         dayjs = dayjs;
-        isShow(){
-            this.$emit('update:isShowDetails', !this.isShowDetails)
-        }
-
     }
 </script>
 
 <style lang="scss" scoped>
-    .wrap-details {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: rgba(0, 0, 0, .5);
-
         .details {
-            position: absolute;
+            position: fixed;
             bottom: 0;
             left: 0;
             width: 100%;
@@ -101,6 +88,4 @@
                 }
             }
         }
-    }
-
 </style>
