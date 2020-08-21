@@ -19,7 +19,7 @@
             您还没有记录，赶快去记一笔吧~
         </div>
         <div class="mask" v-if="isShowDetails" @click="isShowDetails=!isShowDetails"></div>
-        <Details v-if="isShowDetails" :record="selectRecord"/>
+        <Details v-if="isShowDetails" :record="selectRecord" :isShowDetails.sync="isShowDetails"/>
     </Layout>
 </template>
 

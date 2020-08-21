@@ -5,7 +5,7 @@
                 <span>账单详情</span>
                 <div class="btn">
                     <button>修改</button>
-                    <button>删除</button>
+                    <button @click="deleteRecord">删除</button>
                 </div>
             </div>
             <div class="bill-amount">
@@ -37,7 +37,12 @@
     @Component
     export default class Details extends Vue {
         @Prop({required: true, type: Object}) record!: RecordItem;
+        @Prop(Boolean) isShowDetails!: boolean;
         dayjs = dayjs;
+        deleteRecord(){
+            this.$store.commit('deleteRecord', this.record._id);
+            this.$emit('update:isShowDetails',!this.isShowDetails);
+        }
     }
 </script>
 
