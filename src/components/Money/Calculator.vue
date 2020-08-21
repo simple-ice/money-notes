@@ -1,6 +1,6 @@
 <template>
     <div class="calculator">
-        <div class="number">{{outPut}}</div>
+        <div class="number">{{value}}</div>
         <div class="numberPad">
             <button @click="inputContent">1</button>
             <button @click="inputContent">2</button>
@@ -38,6 +38,7 @@
             if (this.outPut === '0') {
                 if ('0123456789'.indexOf(input) >= 0) {
                     this.outPut = input;
+                    this.$emit('update:value', parseFloat(this.outPut));
                     return;
                 }
             }
@@ -45,24 +46,27 @@
                 return;
             }
             this.outPut += input;
+            this.$emit('update:value', parseFloat(this.outPut));
         }
 
         remove() {
             if (this.outPut.length > 1) {
                 this.outPut = this.outPut.slice(0, -1);
+                this.$emit('update:value', parseFloat(this.outPut));
             } else {
                 this.outPut = '0';
+                this.$emit('update:value', parseFloat(this.outPut));
             }
         }
 
         clear() {
             this.outPut = '0';
+            this.$emit('update:value', parseFloat(this.outPut));
         }
 
         save() {
             this.$emit('update:value', parseFloat(this.outPut));
-            this.$emit('submit', parseFloat(this.outPut));
-            this.outPut = '0';
+            this.$emit('submit');
         }
     }
 </script>

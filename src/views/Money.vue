@@ -28,7 +28,8 @@
             tags: [],
             remark: '',
             type: '-',
-            amount: 0
+            amount: 0,
+            _id: ''
         };
         moneyTypeList = moneyTypeList;
 
@@ -55,6 +56,7 @@
             this.$store.commit('createRecord', this.record);
             window.alert('已保存');
             this.record.remark = '';
+            this.record.amount = 0;
         }
     }
 </script>
