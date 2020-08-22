@@ -18,7 +18,7 @@
             </div>
             <div class="bill-time">
                 <span>时间</span>
-                <span>{{dayjs(this.record.createAt).format('YYYY-MM-DD hh:mm')}}</span>
+                <span>{{dayjs(this.record.createAt).format('YYYY-MM-DD HH:mm')}}</span>
             </div>
             <div class="bill-remark">
                 <span>备注</span>
