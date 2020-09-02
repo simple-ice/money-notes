@@ -7,7 +7,7 @@
             <Icon name="label"/>标签
         </router-link>
         <router-link to="/statistics" class="item" active-class="selected">
-            <Icon name="statistics"/>统计
+            <Icon name="list"/>明细
         </router-link>
     </nav>
 </template>
