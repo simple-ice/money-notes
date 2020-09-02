@@ -6,23 +6,23 @@
         <div class="progressLists">
             <div class="final">
                 <span class="finalTitle">累计结余</span>
-                <span class="finalNumber">￥{{finalTotal}}</span>
+                <span class="finalNumber">￥{{finalNumber.total}}</span>
             </div>
             <div class="pay">
                 <div>
-                    <span>总计支出</span>
-                    <span class="amount">￥0</span>
+                    <span class="amountName">总计支出</span>
+                    <span class="amount">￥{{finalNumber.spend}}</span>
                 </div>
                 <div>
-                    <span>总计收入</span>
-                    <span class="amount">￥0</span>
+                    <span class="amountName">总计收入</span>
+                    <span class="amount">￥{{finalNumber.income}}</span>
                 </div>
             </div>
         </div>
         <Tabs class-prefix="stats" :data-tabs="moneyTypeList" :selectedValue.sync="moneyType"/>
         <ol v-if="dataList.length>0">
             <li class="dataList" v-for="(group,index) in dataList" :key="index">
-                <h3 class="title">{{timeTitle(group.title)}}<span style="font-weight: bold">￥{{group.total}}</span></h3>
+                <h3 class="title"><span>{{timeTitle(group.title)}}</span></h3>
                 <ol class="groupList">
                     <li @click="showDetails(item)" v-for="item in group.items" :key="item.id">
                         <div class="textWrap">
@@ -32,6 +32,9 @@
                         <span>￥{{item.amount}}</span>
                     </li>
                 </ol>
+                <div class="groupTotal">
+                    总计： <span>{{moneyType + '￥' + group.total}}</span>
+                </div>
             </li>
         </ol>
         <div v-else class="noData">
@@ -61,34 +64,58 @@
         isShowDetails = false;
         selectRecord!: RecordItem;
 
-        get finalTotal() {
-            let finalTotal = 0;
+        get finalNumber() {
+            const finalNumber: {
+                spend: number;
+                income: number;
+                total: number;
+            } = {spend: 0,income: 0, total: 0};
             for (let i = 0; i < this.recordList.length; i++) {
                 const num = this.recordList[i].amount;
                 if (this.recordList[i].type === '+') {
-                    finalTotal = this.add(finalTotal, num)
+                    finalNumber.total = this.add(finalNumber.total, num);
+                    finalNumber.income = this.add(finalNumber.income, num);
                 } else {
-                    finalTotal = parseFloat(this.subtract(finalTotal, num))
+                    finalNumber.total = parseFloat(this.subtract(finalNumber.total, num));
+                    finalNumber.spend = parseFloat(this.subtract(finalNumber.spend, num));
                 }
             }
-            return finalTotal;
+            return finalNumber;
         }
+
         //加法
-        add(arg1: number,arg2: number){
-            let r1,r2;
-            try{r1=arg1.toString().split(".")[1].length}catch(e){r1=0}
-            try{r2=arg2.toString().split(".")[1].length}catch(e){r2=0}
-            const m = Math.pow(10,Math.max(r1,r2))
-            return (arg1*m+arg2*m)/m
+        add(arg1: number, arg2: number) {
+            let r1, r2;
+            try {
+                r1 = arg1.toString().split('.')[1].length;
+            } catch (e) {
+                r1 = 0;
+            }
+            try {
+                r2 = arg2.toString().split('.')[1].length;
+            } catch (e) {
+                r2 = 0;
+            }
+            const m = Math.pow(10, Math.max(r1, r2));
+            return (arg1 * m + arg2 * m) / m;
         }
+
         //减法
-        subtract(arg1: number,arg2: number){
-            let r1,r2;
-            try{r1=arg1.toString().split(".")[1].length}catch(e){r1=0}
-            try{r2=arg2.toString().split(".")[1].length}catch(e){r2=0}
-            const m=Math.pow(10,Math.max(r1,r2));
-            const n=(r1>=r2)?r1:r2;
-            return ((arg1*m-arg2*m)/m).toFixed(n);
+        subtract(arg1: number, arg2: number) {
+            let r1, r2;
+            try {
+                r1 = arg1.toString().split('.')[1].length;
+            } catch (e) {
+                r1 = 0;
+            }
+            try {
+                r2 = arg2.toString().split('.')[1].length;
+            } catch (e) {
+                r2 = 0;
+            }
+            const m = Math.pow(10, Math.max(r1, r2));
+            const n = (r1 >= r2) ? r1 : r2;
+            return ((arg1 * m - arg2 * m) / m).toFixed(n);
         }
 
         get recordList() {
@@ -209,6 +236,9 @@
                     font-size: 14px;
                 }
 
+                .amountName{
+                    padding: 5px 0;
+                }
                 .amount {
                     font-weight: bold;
                 }
@@ -236,6 +266,7 @@
             justify-content: flex-end;
             background: white;
             padding: 0 16px;
+            margin: 5px 0;
         }
 
         .stats-tabs-item {
@@ -245,7 +276,7 @@
             height: auto;
             background: none;
             font-size: 18px;
-
+            padding: 10px 0;
             &.selected {
                 color: $color-highlight;
 
@@ -269,8 +300,13 @@
     }
 
     .dataList {
+        border-top: 5px solid #f3f3f3;
+        background: white;
         .title {
             @extend %item;
+            >span{
+                border-bottom: 2px solid #c1d1ea;
+            }
         }
 
         .groupList {
@@ -278,7 +314,7 @@
 
             > li {
                 @extend %item;
-
+                border-bottom: 1px solid #f3f3f3;
                 position: relative;
 
                 .textWrap {
@@ -295,6 +331,12 @@
                     }
                 }
             }
+        }
+        .groupTotal{
+            padding: 4px 16px;
+            text-align: right;
+            border-top: 1px solid #f5f5f5;
+
         }
     }
 
