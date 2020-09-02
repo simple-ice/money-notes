@@ -1,5 +1,5 @@
-# money-notes
-
+# 钱账
+一个小型记账的应用。
 ## Project setup
 ```
 yarn install
