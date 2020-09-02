@@ -27,6 +27,7 @@
         flex-direction: row;
         font-size: 12px;
         background: white;
+        position: relative;
         .item{
             width: 33.3333%;
             display: flex;
