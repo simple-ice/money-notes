@@ -1,6 +1,6 @@
 <template>
     <div class="calculator">
-        <div class="number">{{value}}</div>
+        <div class="number">{{outPut}}</div>
         <div class="numberPad">
             <button @click="inputContent">1</button>
             <button @click="inputContent">2</button>
@@ -27,7 +27,8 @@
     @Component
     export default class Calculator extends Vue {
         @Prop(Number) readonly value!: number;
-        outPut = this.value.toString();
+        @Prop(Array) readonly tags!: object[];
+        outPut: string = this.value.toString();
 
         inputContent(e: MouseEvent) {
             const button = e.target as HTMLButtonElement;
@@ -38,7 +39,6 @@
             if (this.outPut === '0') {
                 if ('0123456789'.indexOf(input) >= 0) {
                     this.outPut = input;
-                    this.$emit('update:value', parseFloat(this.outPut));
                     return;
                 }
             }
@@ -46,7 +46,7 @@
                 return;
             }
             this.outPut += input;
-            this.$emit('update:value', parseFloat(this.outPut));
+
         }
 
         remove() {
@@ -55,18 +55,19 @@
             } else {
                 this.outPut = '0';
             }
-            this.$emit('update:value', parseFloat(this.outPut));
         }
 
         clear() {
             this.outPut = '0';
-            this.$emit('update:value', parseFloat(this.outPut));
         }
 
         save() {
-            this.$emit('update:value', parseFloat(this.outPut));
-            this.$emit('submit',parseFloat(this.outPut));
-            this.outPut = '0';
+            if (this.tags.length > 0){
+                this.$emit('update:value', parseFloat(this.outPut));
+                this.outPut = '0';
+            }
+            this.$emit('submit');
+
         }
     }
 </script>
