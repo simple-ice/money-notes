@@ -53,6 +53,7 @@
     import dayjs from 'dayjs';
     import clone from '@/lib/clone';
     import Details from '@/components/Statistics/Details.vue';
+    import {accAdd, accSub} from '@/lib/operation';
 
     @Component({
         components: {Details, Tabs}
@@ -69,54 +70,20 @@
                 spend: number;
                 income: number;
                 total: number;
-            } = {spend: 0,income: 0, total: 0};
+            } = {spend: 0, income: 0, total: 0};
             for (let i = 0; i < this.recordList.length; i++) {
                 const num = this.recordList[i].amount;
                 if (this.recordList[i].type === '+') {
-                    finalNumber.total = this.add(finalNumber.total, num);
-                    finalNumber.income = this.add(finalNumber.income, num);
+                    finalNumber.total = accAdd(finalNumber.total, num);
+                    finalNumber.income = accAdd(finalNumber.income, num);
                 } else {
-                    finalNumber.total = parseFloat(this.subtract(finalNumber.total, num));
-                    finalNumber.spend = parseFloat(this.subtract(finalNumber.spend, num));
+                    finalNumber.total = parseFloat(accSub(finalNumber.total, num));
+                    finalNumber.spend = parseFloat(accSub(finalNumber.spend, num));
                 }
             }
             return finalNumber;
         }
 
-        //加法
-        add(arg1: number, arg2: number) {
-            let r1, r2;
-            try {
-                r1 = arg1.toString().split('.')[1].length;
-            } catch (e) {
-                r1 = 0;
-            }
-            try {
-                r2 = arg2.toString().split('.')[1].length;
-            } catch (e) {
-                r2 = 0;
-            }
-            const m = Math.pow(10, Math.max(r1, r2));
-            return (arg1 * m + arg2 * m) / m;
-        }
-
-        //减法
-        subtract(arg1: number, arg2: number) {
-            let r1, r2;
-            try {
-                r1 = arg1.toString().split('.')[1].length;
-            } catch (e) {
-                r1 = 0;
-            }
-            try {
-                r2 = arg2.toString().split('.')[1].length;
-            } catch (e) {
-                r2 = 0;
-            }
-            const m = Math.pow(10, Math.max(r1, r2));
-            const n = (r1 >= r2) ? r1 : r2;
-            return ((arg1 * m - arg2 * m) / m).toFixed(n);
-        }
 
         get recordList() {
             return (this.$store.state as RootState).recordList;
@@ -150,7 +117,7 @@
                 }
             }
             result.map(group => {
-                group.total = group.items.reduce((sum, item) => sum + item.amount, 0);
+                group.total = group.items.reduce((sum, item) => accAdd(sum, item.amount), 0);
             });
             return result;
         }
@@ -236,9 +203,10 @@
                     font-size: 14px;
                 }
 
-                .amountName{
+                .amountName {
                     padding: 5px 0;
                 }
+
                 .amount {
                     font-weight: bold;
                 }
@@ -277,6 +245,7 @@
             background: none;
             font-size: 18px;
             padding: 10px 0;
+
             &.selected {
                 color: $color-highlight;
 
@@ -302,9 +271,11 @@
     .dataList {
         border-top: 5px solid #f3f3f3;
         background: white;
+
         .title {
             @extend %item;
-            >span{
+
+            > span {
                 border-bottom: 2px solid #c1d1ea;
             }
         }
@@ -332,7 +303,8 @@
                 }
             }
         }
-        .groupTotal{
+
+        .groupTotal {
             padding: 4px 16px;
             text-align: right;
             border-top: 1px solid #f5f5f5;
