@@ -6,16 +6,16 @@
         <div class="progressLists">
             <div class="final">
                 <span class="finalTitle">累计结余</span>
-                <span class="finalNumber">￥17171</span>
+                <span class="finalNumber">￥{{finalTotal}}</span>
             </div>
             <div class="pay">
                 <div>
                     <span>总计支出</span>
-                    <span class="amount">￥90</span>
+                    <span class="amount">￥0</span>
                 </div>
                 <div>
                     <span>总计收入</span>
-                    <span class="amount">￥100</span>
+                    <span class="amount">￥0</span>
                 </div>
             </div>
         </div>
@@ -60,6 +60,36 @@
         dayjs = dayjs;
         isShowDetails = false;
         selectRecord!: RecordItem;
+
+        get finalTotal() {
+            let finalTotal = 0;
+            for (let i = 0; i < this.recordList.length; i++) {
+                const num = this.recordList[i].amount;
+                if (this.recordList[i].type === '+') {
+                    finalTotal = this.add(finalTotal, num)
+                } else {
+                    finalTotal = parseFloat(this.subtract(finalTotal, num))
+                }
+            }
+            return finalTotal;
+        }
+        //加法
+        add(arg1: number,arg2: number){
+            let r1,r2;
+            try{r1=arg1.toString().split(".")[1].length}catch(e){r1=0}
+            try{r2=arg2.toString().split(".")[1].length}catch(e){r2=0}
+            const m = Math.pow(10,Math.max(r1,r2))
+            return (arg1*m+arg2*m)/m
+        }
+        //减法
+        subtract(arg1: number,arg2: number){
+            let r1,r2;
+            try{r1=arg1.toString().split(".")[1].length}catch(e){r1=0}
+            try{r2=arg2.toString().split(".")[1].length}catch(e){r2=0}
+            const m=Math.pow(10,Math.max(r1,r2));
+            const n=(r1>=r2)?r1:r2;
+            return ((arg1*m-arg2*m)/m).toFixed(n);
+        }
 
         get recordList() {
             return (this.$store.state as RootState).recordList;
@@ -132,44 +162,54 @@
 
 <style lang="scss" scoped>
     @import "~@/assets/styles/helps.scss";
-    .titleName{
+
+    .titleName {
         margin: 10px;
-        >span{
+
+        > span {
             font-size: 18px;
             border-bottom: 2px solid $color-highlight;
         }
     }
-    .progressLists{
+
+    .progressLists {
         background: white;
         padding: 10px 30px;
         border: 1px solid #333333;
         border-radius: 18px;
         margin: 10px;
-        .final{
+
+        .final {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            .finalTitle{
+
+            .finalTitle {
                 font-weight: bold;
             }
-            .finalNumber{
+
+            .finalNumber {
                 font-size: 20px;
                 color: #f4647b;
             }
         }
-        .pay{
+
+        .pay {
             display: flex;
             border-top: 1px solid #b7b2b2;
-            >div{
+
+            > div {
                 flex-grow: 1;
                 display: flex;
                 flex-direction: column;
                 /*justify-content: space-between;*/
                 align-items: center;
-                >span{
+
+                > span {
                     font-size: 14px;
                 }
-                .amount{
+
+                .amount {
                     font-weight: bold;
                 }
             }
@@ -184,6 +224,7 @@
         height: 100vh;
         background: rgba(0, 0, 0, .5);
     }
+
     .noData {
         font-size: 20px;
         padding: 30px;
@@ -191,11 +232,12 @@
     }
 
     ::v-deep {
-        .tabs{
+        .tabs {
             justify-content: flex-end;
             background: white;
             padding: 0 16px;
         }
+
         .stats-tabs-item {
             margin-right: 14px;
             border-radius: 18px;
@@ -203,6 +245,7 @@
             height: auto;
             background: none;
             font-size: 18px;
+
             &.selected {
                 color: $color-highlight;
 
