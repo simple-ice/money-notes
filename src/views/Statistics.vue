@@ -1,5 +1,24 @@
 <template>
     <Layout class="wrap">
+        <div class="titleName">
+            <span>收支明细</span>
+        </div>
+        <div class="progressLists">
+            <div class="final">
+                <span class="finalTitle">累计结余</span>
+                <span class="finalNumber">￥17171</span>
+            </div>
+            <div class="pay">
+                <div>
+                    <span>总计支出</span>
+                    <span class="amount">￥90</span>
+                </div>
+                <div>
+                    <span>总计收入</span>
+                    <span class="amount">￥100</span>
+                </div>
+            </div>
+        </div>
         <Tabs class-prefix="stats" :data-tabs="moneyTypeList" :selectedValue.sync="moneyType"/>
         <ol v-if="dataList.length>0">
             <li class="dataList" v-for="(group,index) in dataList" :key="index">
@@ -113,6 +132,50 @@
 
 <style lang="scss" scoped>
     @import "~@/assets/styles/helps.scss";
+    .titleName{
+        margin: 10px;
+        >span{
+            font-size: 18px;
+            border-bottom: 2px solid $color-highlight;
+        }
+    }
+    .progressLists{
+        background: white;
+        padding: 10px 30px;
+        border: 1px solid #333333;
+        border-radius: 18px;
+        margin: 10px;
+        .final{
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            .finalTitle{
+                font-weight: bold;
+            }
+            .finalNumber{
+                font-size: 20px;
+                color: #f4647b;
+            }
+        }
+        .pay{
+            display: flex;
+            border-top: 1px solid #b7b2b2;
+            >div{
+                flex-grow: 1;
+                display: flex;
+                flex-direction: column;
+                /*justify-content: space-between;*/
+                align-items: center;
+                >span{
+                    font-size: 14px;
+                }
+                .amount{
+                    font-weight: bold;
+                }
+            }
+        }
+    }
+
     .mask {
         position: fixed;
         top: 0;
@@ -128,10 +191,20 @@
     }
 
     ::v-deep {
+        .tabs{
+            justify-content: flex-end;
+            background: white;
+            padding: 0 16px;
+        }
         .stats-tabs-item {
+            margin-right: 14px;
+            border-radius: 18px;
+            width: auto;
+            height: auto;
+            background: none;
+            font-size: 18px;
             &.selected {
-                background: $color-highlight;
-                color: white;
+                color: $color-highlight;
 
                 &::after {
                     content: none;
