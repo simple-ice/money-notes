@@ -9,6 +9,9 @@
         <router-link to="/statistics" class="item" active-class="selected">
             <Icon name="list"/>明细
         </router-link>
+        <router-link to="/detail" class="item" active-class="selected">
+            <Icon name="statistics"/>图表
+        </router-link>
     </nav>
 </template>
 
