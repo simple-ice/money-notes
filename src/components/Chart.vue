@@ -1,5 +1,5 @@
 <template>
-    <div class="chart-wrap" ref="chartWrap">
+    <div class="chart" ref="chartWrap">
 
     </div>
 </template>
@@ -11,7 +11,7 @@
 
     @Component
     export default class Chart extends Vue {
-        @Prop(Object) options: EChartOption | undefined;
+        @Prop({required: true, type: Object}) options: EChartOption | undefined;
         chart?: ECharts;
 
         mounted() {
@@ -33,5 +33,7 @@
 </script>
 
 <style lang="scss" scoped>
-
+    .chart{
+        height: 300px;
+    }
 </style>
