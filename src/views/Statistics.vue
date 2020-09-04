@@ -161,8 +161,7 @@
         margin: 10px;
 
         > span {
-            font-size: 18px;
-            border-bottom: 2px solid $color-highlight;
+            @extend %subtitleName;
         }
     }
 
