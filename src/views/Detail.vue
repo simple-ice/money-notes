@@ -3,14 +3,14 @@
         <div class="detail-wrap">
             <Tabs :data-tabs="moneyTypeList" :selected-value.sync="moneyType"/>
             <div class="chart-line">
-                <span class="titleName">{{moneyType === '-' ? '支出' : '收入'}}走势</span>
+                <span class="titleName">本月{{moneyType === '-' ? '支出' : '收入'}}走势</span>
                 <div class="lineBox">
                     <Chart class="line" :options="chartLineOptions" ref="chartLine"/>
                 </div>
             </div>
             <div class="chart-pie">
                 <span class="titleName">分类占比</span>
-                <!--                <Chart :options="chartPieOptions"/>-->
+                <Chart :options="chartPieOptions"/>
             </div>
 
         </div>
@@ -25,6 +25,7 @@
     import Chart from '@/components/Chart.vue';
     import clone from '@/lib/clone';
     import dayjs from 'dayjs';
+    import {accAdd} from '@/lib/operation';
 
     interface DetailPointArray {
         date: string;
@@ -106,7 +107,7 @@
                     axisLine: {lineStyle: {color: '#666'}},
                     axisLabel: {
                         formatter: function (value: string) {
-                            return dayjs(value).format('M-DD')
+                            return dayjs(value).format('M-DD');
                         }
                     },
                 },
@@ -130,8 +131,65 @@
             };
         }
 
+
+        get tagsList() {
+            const copyRecordList = clone(this.recordList)
+                .filter(r => r.type === this.moneyType)
+                .sort((a, b) => dayjs(b.createAt).valueOf() - dayjs(a.createAt).valueOf());
+
+            const tagsMap = new Map();
+            for (let i = 0; i < copyRecordList.length; i++) {
+                const tagName = copyRecordList[i].tags[0].name;
+                const tagAmount = copyRecordList[i].amount;
+                if (tagsMap.has(tagName)) {
+                    const num = accAdd(tagsMap.get(tagName), tagAmount).toFixed(2);
+                    tagsMap.set(tagName, num);
+                } else {
+                    tagsMap.set(tagName, tagAmount.toFixed(2));
+                }
+            }
+            return tagsMap;
+        }
+
         get chartPieOptions() {
-            return {};
+            const tagsName: string[] = [];
+            const tagAmountData: object[] = [];
+            this.tagsList.forEach((value, key) => {
+                tagsName.push(key)
+                tagAmountData.push({name: key,value})
+            })
+            return {
+                tooltip: {
+                    trigger: 'item',
+                    formatter: '{b} : {c} ({d}%)'
+                },
+                legend: {
+                    orient: 'horizontal',
+                    top: 'auto',
+                    data: tagsName
+                },
+                series: [
+                    {
+                        type: 'pie',
+                        radius: '55%',
+                        center: ['50%', '60%'],
+                        data: tagAmountData,
+                        emphasis: {
+                            itemStyle: {
+                                shadowBlur: 10,
+                                shadowOffsetX: 0,
+                                shadowColor: 'rgba(0, 0, 0, 0.5)'
+                            }
+                        },
+                        label: {
+                            position: 'outer',
+                            alignTo: 'labelLine',
+                            color: 'black',
+                            fontSize: 14,
+                        }
+                    }
+                ]
+            };
         }
     }
 </script>
