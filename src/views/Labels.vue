@@ -35,16 +35,16 @@
     @import "~@/assets/styles/helps.scss";
 
     .tags {
-        background: white;
-        padding-left: 16px;
-
         > .tag {
+            padding-left: 16px;
             min-height: 44px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             border-bottom: 2px solid #e6e6e6;
-
+            border-radius: 14px;
+            background: white;
+            margin-top: 5px;
             svg {
                 margin-right: 12px;
             }
