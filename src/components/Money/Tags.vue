@@ -20,19 +20,20 @@
     @Component
     export default class Tags extends mixins(TagHelper) {
         selectedTags: Tag[] = [];
+
         get tagList() {
             return this.$store.state.tagList;
         }
-        created(){
+
+        created() {
             this.$store.commit('fetchTags');
         }
+
         toggle(tag: Tag) {
-            const index = this.selectedTags.indexOf(tag);
-            if (index >= 0) {
-                this.selectedTags.splice(index, 1);
-            } else {
-                this.selectedTags.push(tag);
+            if (this.selectedTags.length > 0) {
+                this.selectedTags.pop();
             }
+            this.selectedTags.push(tag);
             this.$emit('update:selected', this.selectedTags);
         }
 
@@ -41,6 +42,7 @@
 
 <style lang="scss" scoped>
     @import "~@/assets/styles/helps.scss";
+
     .tags {
         width: 100%;
         font-size: 14px;
@@ -51,10 +53,12 @@
         flex-direction: column;
         justify-content: flex-end;
         flex-grow: 1;
+
         .current {
             display: flex;
             flex-wrap: wrap;
             overflow: auto;
+
             > li {
                 $bg: #D9D9D9;
                 background: $bg;
